@@ -24,7 +24,8 @@ class BooksViewModel {
     //since SwiftData doesn't work well with MVVM, I'll inject "manually" the ModelContext
     func setModelContext(_ context: ModelContext) {
         self.modelContext = context
-        //func to initialze data
+        initializeDataIfNeeded()
+        fetchBooks()
     }
     
     ///I'll create a function to:
@@ -63,5 +64,10 @@ class BooksViewModel {
             print ("Fetch failed : \(error)")
             books = []  //Go back to the empty array
         }
+    }
+    
+    func toggleFavorite(for book: BookModel) {
+        book.isFavorite.toggle()
+        try? modelContext?.save()
     }
 }
