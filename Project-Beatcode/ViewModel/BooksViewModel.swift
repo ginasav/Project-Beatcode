@@ -51,4 +51,17 @@ class BooksViewModel {
             try? modelContext?.save()
         }
     }
+    
+    //since I can't use @Query - which automatically populates the array books - I'll create a fetch function
+    func fetchBooks() {
+        guard let modelContext = modelContext else { return }
+        
+        do {
+            let descriptor = FetchDescriptor<BookModel>()
+            books = try modelContext.fetch(descriptor)
+        } catch {
+            print ("Fetch failed : \(error)")
+            books = []  //Go back to the empty array
+        }
+    }
 }
