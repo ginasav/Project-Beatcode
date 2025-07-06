@@ -47,6 +47,7 @@ struct ContentView: View {
                     }
                     .padding(.horizontal)
                 }
+                .listRowSeparator(.hidden)
             }
             .listStyle(PlainListStyle())
             .navigationTitle("Books of this month")
