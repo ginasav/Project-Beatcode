@@ -22,7 +22,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = BooksViewModel()
-    @State private var selectedBook: BookModel?
+    @State private var selectedBookID: UUID?
     @State private var showingDetail = false
     
     var body: some View {
@@ -36,7 +36,9 @@ struct ContentView: View {
                                 .fontWeight(.regular)
                                 .foregroundStyle(.primary)
                                 .onTapGesture {
-                                    selectedBook = book
+                                    //Only allow tap if books are LOADED
+                                    guard !viewModel.books.isEmpty else { return }
+                                    selectedBookID = book.id
                                     showingDetail = true
                                 }
                             
@@ -65,8 +67,9 @@ struct ContentView: View {
             viewModel.setModelContext(modelContext)
         }
         .sheet(isPresented: $showingDetail) {
-            if let selectedBook = selectedBook {
-                BookDetailView(book: selectedBook)
+            //I add a check here too to ensure that the book detail view is not empty
+            if let selectedBookID = selectedBookID, !viewModel.books.isEmpty {
+                BookDetailView(bookID: selectedBookID, viewModel: viewModel)
             }
         }
     }

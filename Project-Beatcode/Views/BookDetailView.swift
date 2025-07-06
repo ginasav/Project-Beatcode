@@ -10,11 +10,17 @@
 import SwiftUI
 
 struct BookDetailView: View {
-    let book: BookModel
+    let bookID: UUID
+    let viewModel: BooksViewModel
     @Environment(\.dismiss) var dismiss
+    
+    private var book: BookModel? {
+        viewModel.books.first { $0.id == bookID }
+    }
     
     var body: some View {
         VStack(spacing: 10) {
+            if let book = book {
                 //Book Icon
                 Image(systemName: "book.fill")
                     .font(.system(size: 60))
@@ -43,7 +49,10 @@ struct BookDetailView: View {
                     .background(Color.gray.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
+            } else {
+                ProgressView("Loading...")
             }
+        }
             .navigationTitle("Book Details")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -58,9 +67,6 @@ struct BookDetailView: View {
 
 #Preview {
     NavigationView{
-        BookDetailView(
-            book: BookModel(title: "Sample Book",
-                            author: "Sample Author")
-        )
+        BookDetailView(bookID: UUID(), viewModel: BooksViewModel())
     }
 }
