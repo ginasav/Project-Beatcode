@@ -26,37 +26,33 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach (viewModel.books) { book in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(book.title)
-                                .font(.headline)
-                                .fontWeight(.regular)
-                                .foregroundStyle(.primary)
-                                .onTapGesture {
-                                    selectedBook = book
-                                }
-                            
-                            Text("by \(book.author)")
-                                .font(.caption)
+            ZStack {
+                // Background gradient
+                LinearGradient(
+                    colors: [
+                        Color(.systemBackground),
+                        Color(.systemGray6).opacity(0.3)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+                
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        ForEach (viewModel.books) { book in
+                            BookCardView(
+                                book: book,
+                                onTap: { selectedBook = book },
+                                onFavoriteToggle: { viewModel.toggleFavorite(for: book) }
+                            )
                         }
-                        Spacer()
-                        
-                        Button(action: {
-                            viewModel.toggleFavorite(for: book)
-                        }) {
-                            Image(systemName: book.isFavorite ? "heart.fill" : "heart")
-                                .foregroundStyle(book.isFavorite ? .red : .gray)
-                        }
-                        .buttonStyle(PlainButtonStyle()) //to prevent button from capturing row taps
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
                 }
-                .listRowSeparator(.hidden)
             }
-            .listStyle(PlainListStyle())
-            .navigationTitle("Books of this month")
+            .navigationTitle("Books of the month")
         }
         //adding onAppear to load the modelContext
         .onAppear{
@@ -67,6 +63,36 @@ struct ContentView: View {
         }
     }
 }
+
+
+//MARK: - BOOK CARD COMPONENT
+struct BookCardView: View {
+    let book: BookModel
+    let onTap: () -> Void
+    let onFavoriteToggle: () -> Void
+    
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 16) {
+                // Book Icon
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(
+                            LinearGradient(
+                                colors: [.blue.opacity(0.8),
+                                         .purple.opacity(0.6)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 60, height: 80)
+                    
+                }
+            }
+        }
+    }
+}
+
 
 #Preview {
     ContentView()
