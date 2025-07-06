@@ -17,9 +17,11 @@
 ///- make the app accessible
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @State var viewModel: BooksViewModel
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel = BooksViewModel()
     
     var body: some View {
         VStack {
@@ -31,9 +33,14 @@ struct ContentView: View {
             }
         }
         .padding()
+        //adding onAppear to load the modelContext
+        .onAppear{
+            viewModel.setModelContext(modelContext)
+        }
     }
 }
 
 #Preview {
-    ContentView(viewModel: BooksViewModel())
+    ContentView()
+        .modelContainer(for: BookModel.self, inMemory: true)
 }

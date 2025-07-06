@@ -12,7 +12,7 @@ import SwiftData
 struct Project_BeatcodeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: BooksViewModel())
+            ContentView()
         }
         .modelContainer(for: BookModel.self)
     }
