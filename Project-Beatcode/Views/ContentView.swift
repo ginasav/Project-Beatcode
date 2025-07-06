@@ -22,8 +22,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = BooksViewModel()
-    @State private var selectedBookID: UUID?
-    @State private var showingDetail = false
+    @State private var selectedBook: BookModel?
     
     var body: some View {
         NavigationStack {
@@ -36,10 +35,7 @@ struct ContentView: View {
                                 .fontWeight(.regular)
                                 .foregroundStyle(.primary)
                                 .onTapGesture {
-                                    //Only allow tap if books are LOADED
-                                    guard !viewModel.books.isEmpty else { return }
-                                    selectedBookID = book.id
-                                    showingDetail = true
+                                    selectedBook = book
                                 }
                             
                             Text("by \(book.author)")
@@ -66,11 +62,8 @@ struct ContentView: View {
         .onAppear{
             viewModel.setModelContext(modelContext)
         }
-        .sheet(isPresented: $showingDetail) {
-            //I add a check here too to ensure that the book detail view is not empty
-            if let selectedBookID = selectedBookID, !viewModel.books.isEmpty {
-                BookDetailView(bookID: selectedBookID, viewModel: viewModel)
-            }
+        .sheet(item: $selectedBook) { book in
+            BookDetailView(bookID: book.id, viewModel: viewModel)
         }
     }
 }
