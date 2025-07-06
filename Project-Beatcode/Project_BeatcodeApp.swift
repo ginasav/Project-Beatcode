@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Project_BeatcodeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: BooksViewModel())
         }
+        .modelContainer(for: BookModel.self)
     }
 }

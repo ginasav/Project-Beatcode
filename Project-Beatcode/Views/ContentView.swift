@@ -19,17 +19,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var viewModel: BooksViewModel
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            ForEach (viewModel.books) { book in
+                HStack {
+                    Text(book.title)
+                        .foregroundStyle(.black)
+                }
+            }
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: BooksViewModel())
 }
