@@ -22,6 +22,8 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = BooksViewModel()
+    @State private var selectedBook: BookModel?
+    @State private var showingDetail = false
     
     var body: some View {
         NavigationStack {
@@ -32,6 +34,11 @@ struct ContentView: View {
                             Text(book.title)
                                 .font(.headline)
                                 .fontWeight(.regular)
+                                .foregroundStyle(.primary)
+                                .onTapGesture {
+                                    selectedBook = book
+                                    showingDetail = true
+                                }
                             
                             Text("by \(book.author)")
                                 .font(.caption)
@@ -44,6 +51,7 @@ struct ContentView: View {
                             Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                                 .foregroundStyle(book.isFavorite ? .red : .gray)
                         }
+                        .buttonStyle(PlainButtonStyle()) //to prevent button from capturing row taps
                     }
                     .padding(.horizontal)
                 }
@@ -55,6 +63,13 @@ struct ContentView: View {
         //adding onAppear to load the modelContext
         .onAppear{
             viewModel.setModelContext(modelContext)
+        }
+        .sheet(isPresented: $showingDetail) {
+            if let selectedBook = selectedBook {
+                BookDetailView(
+                    book: selectedBook
+                )
+            }
         }
     }
 }
