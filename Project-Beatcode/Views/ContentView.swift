@@ -29,7 +29,17 @@ struct ContentView: View {
                 HStack {
                     Text(book.title)
                         .foregroundStyle(.black)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        viewModel.toggleFavorite(for: book)
+                    }) {
+                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                            .foregroundStyle(book.isFavorite ? .red : .gray)
+                    }
                 }
+                .padding(.horizontal)
             }
         }
         .padding()
