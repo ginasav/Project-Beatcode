@@ -69,5 +69,6 @@ class BooksViewModel {
     func toggleFavorite(for book: BookModel) {
         book.isFavorite.toggle()
         try? modelContext?.save()
+        fetchBooks() //to refresh the UI
     }
 }

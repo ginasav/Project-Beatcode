@@ -24,25 +24,26 @@ struct ContentView: View {
     @State private var viewModel = BooksViewModel()
     
     var body: some View {
-        VStack {
-            ForEach (viewModel.books) { book in
-                HStack {
-                    Text(book.title)
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        viewModel.toggleFavorite(for: book)
-                    }) {
-                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
-                            .foregroundStyle(book.isFavorite ? .red : .gray)
+        NavigationStack {
+            List {
+                ForEach (viewModel.books) { book in
+                    HStack {
+                        Text(book.title)
+                        Spacer()
+                        
+                        Button(action: {
+                            viewModel.toggleFavorite(for: book)
+                        }) {
+                            Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                                .foregroundStyle(book.isFavorite ? .red : .gray)
+                        }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
+            .listStyle(PlainListStyle())
+            .navigationTitle("Books of this month")
         }
-        .padding()
         //adding onAppear to load the modelContext
         .onAppear{
             viewModel.setModelContext(modelContext)
