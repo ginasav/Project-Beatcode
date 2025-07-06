@@ -14,8 +14,12 @@ struct BookDetailView: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack(spacing: 10) {
+                //Book Icon
+                Image(systemName: "book.fill")
+                    .font(.system(size: 60))
+                    .foregroundStyle(.cyan)
+                
                 //Book Details
                 VStack {
                     Text(book.title)
@@ -29,7 +33,7 @@ struct BookDetailView: View {
                 }
                 
                 // Favorite Status
-                VStack {
+                VStack(spacing: 10) {
                     HStack {
                         Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                             .foregroundStyle(book.isFavorite ? .red : .gray)
@@ -40,8 +44,9 @@ struct BookDetailView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
             }
-        }
-        .toolbar {
+            .navigationTitle("Book Details")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button ("Done") {
                     dismiss()
@@ -52,8 +57,10 @@ struct BookDetailView: View {
 }
 
 #Preview {
-    BookDetailView(
-        book: BookModel(title: "Sample Book",
-                        author: "Sample Author")
-    )
+    NavigationView{
+        BookDetailView(
+            book: BookModel(title: "Sample Book",
+                            author: "Sample Author")
+        )
+    }
 }
