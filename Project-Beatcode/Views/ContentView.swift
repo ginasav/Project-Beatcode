@@ -28,7 +28,14 @@ struct ContentView: View {
             List {
                 ForEach (viewModel.books) { book in
                     HStack {
-                        Text(book.title)
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(book.title)
+                                .font(.headline)
+                                .fontWeight(.regular)
+                            
+                            Text("by \(book.author)")
+                                .font(.caption)
+                        }
                         Spacer()
                         
                         Button(action: {
