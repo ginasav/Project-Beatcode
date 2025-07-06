@@ -66,9 +66,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showingDetail) {
             if let selectedBook = selectedBook {
-                BookDetailView(
-                    book: selectedBook
-                )
+                BookDetailView(book: selectedBook)
             }
         }
     }

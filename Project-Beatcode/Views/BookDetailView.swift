@@ -27,6 +27,18 @@ struct BookDetailView: View {
                         .font(.title2)
                         .foregroundStyle(.secondary)
                 }
+                
+                // Favorite Status
+                VStack {
+                    HStack {
+                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                            .foregroundStyle(book.isFavorite ? .red : .gray)
+                            .font(.title2)
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
             }
         }
         .toolbar {
