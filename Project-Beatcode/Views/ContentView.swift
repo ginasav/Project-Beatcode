@@ -29,8 +29,8 @@ struct ContentView: View {
             ZStack {
                 LinearGradient(
                     colors: [
-                        Color(.systemGray2).opacity(0.7),
-                        Color(.systemGray6).opacity(0.3)
+                        Color(.black).opacity(0.4),
+                        Color(.systemGray6).opacity(0.6)
                     ],
                     startPoint: .bottomTrailing,
                     endPoint: .topLeading
@@ -53,18 +53,6 @@ struct ContentView: View {
                     }
                     .scrollDisabled(true)
                 }
-            }
-            .background {
-                //Background gradient
-                LinearGradient(
-                    colors: [
-                        Color(.systemBackground),
-                        Color(.systemGray6).opacity(0.3)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
             }
             .onAppear{
                 viewModel.setModelContext(modelContext)
@@ -97,6 +85,10 @@ struct ContentView: View {
                                 )
                             )
                             .frame(width: 60, height: 80)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(.white.opacity(0.4), lineWidth: 1.5)
+                            }
                         
                         Image(systemName: "book.fill")
                             .font(.title2)
@@ -124,6 +116,10 @@ struct ContentView: View {
                             Circle()
                                 .fill(.ultraThinMaterial)
                                 .frame(width: 44, height: 44)
+                                .overlay {
+                                    Circle()
+                                        .stroke(.white.opacity(0.4), lineWidth: 1)
+                                }
                             
                             Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                                 .font(.title)
@@ -135,7 +131,11 @@ struct ContentView: View {
                 .padding(20)
                 .background {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
+                        .fill(.regularMaterial)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(.white.opacity(0.4), lineWidth: 2)
+                        }
                         .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
                 }
             }
