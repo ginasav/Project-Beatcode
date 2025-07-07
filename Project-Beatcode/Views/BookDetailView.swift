@@ -23,7 +23,7 @@ struct BookDetailView: View {
             //Background gradient
             LinearGradient(
                 colors: [
-                    Color(.black).opacity(0.4),
+                    Color(.systemGray2).opacity(0.3),
                     Color(.systemGray6).opacity(0.6)
                 ],
                 startPoint: .bottomTrailing,
@@ -50,13 +50,20 @@ struct BookDetailView: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
+                            .frame(width: 120, height: 120)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(.white.opacity(0.4), lineWidth: 1.5)
+                            }
+                            .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 8)
                         
                         Image(systemName: "book.fill")
                             .font(.system(size: 60))
-                            .foregroundStyle(.cyan)
+                            .foregroundStyle(.white)
                     }
+                    .padding(.top, 20)
                     
-                    //Book Details
+                    //Book Details Card
                     VStack {
                         Text(book.title)
                             .font(.title)
@@ -67,8 +74,19 @@ struct BookDetailView: View {
                             .font(.title2)
                             .foregroundStyle(.secondary)
                     }
+                    .padding(30)
+                    .background {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(.regularMaterial)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(.white.opacity(0.4), lineWidth: 1.5)
+                            }
+                            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                    }
+                    .padding(.horizontal, 8)
                     
-                    // Favorite Status
+                    // Favorite Status Card
                     VStack(spacing: 10) {
                         HStack {
                             Image(systemName: book.isFavorite ? "heart.fill" : "heart")
@@ -76,11 +94,19 @@ struct BookDetailView: View {
                                 .font(.title2)
                         }
                         .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .background {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.regularMaterial)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(.white.opacity(0.4), lineWidth: 1.5)
+                                }
+                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        }
                     }
                 } else {
-                    ProgressView("Loading...")
+                        ProgressView("Loading...")
+                    .padding(40)
                 }
             }
         }
