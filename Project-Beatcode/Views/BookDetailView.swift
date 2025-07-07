@@ -30,12 +30,14 @@ struct BookDetailView: View {
                 endPoint: .topLeading
             )
             .ignoresSafeArea()
+            .accessibilityHidden(true)
             
             //Blur
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .opacity(0.7)
                 .ignoresSafeArea()
+                .accessibilityHidden(true)
             
             VStack(spacing: 10) {
                 if let book = book {
@@ -62,6 +64,8 @@ struct BookDetailView: View {
                             .foregroundStyle(.white)
                     }
                     .padding(.top, 20)
+                    .accessibilityLabel("Book cover for \(book.title)")
+                    .accessibilityAddTraits(.isImage)
                     
                     //Book Details Card
                     VStack {
@@ -85,6 +89,9 @@ struct BookDetailView: View {
                             .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
                     }
                     .padding(.horizontal, 8)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Book Details: \(book.title) by \(book.author)")
+                    .accessibilityAddTraits(.isStaticText)
                     
                     // Favorite Status Card
                     VStack(spacing: 10) {
@@ -104,11 +111,16 @@ struct BookDetailView: View {
                                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         }
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Favorite status: \(book.isFavorite ? "This book is favorite" : "This book is not favorite")")
+                    .accessibilityAddTraits(.isStaticText)
                 } else {
                         ProgressView("Loading...")
-                    .padding(40)
+                        .accessibilityLabel("Loading book details")
+                        .accessibilityAddTraits(.updatesFrequently)
                 }
             }
+            .accessibilityLabel("Book details view")
         }
             .navigationTitle("Book Details")
             .navigationBarTitleDisplayMode(.inline)
@@ -117,8 +129,14 @@ struct BookDetailView: View {
                 Button ("Done") {
                     dismiss()
                 }
+                .accessibilityLabel("Close book details")
+                .accessibilityHint("Double tap to return to the book list")
+                .accessibilityAddTraits(.isButton)
             }
         }
+            .accessibilityAction(named: "Close") {
+                dismiss()
+            }
     }
 }
 
