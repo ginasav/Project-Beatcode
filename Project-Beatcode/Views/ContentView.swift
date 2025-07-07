@@ -87,7 +87,27 @@ struct BookCardView: View {
                         )
                         .frame(width: 60, height: 80)
                     
+                    Image(systemName: "book.fill")
+                        .font(.title2)
+                        .foregroundStyle(.white)
                 }
+                
+                //Book info
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(book.title)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
+                        .multilineTextAlignment(.leading)
+                    
+                    Text("by \(book.author)")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Spacer()
+                
+            
             }
         }
     }
