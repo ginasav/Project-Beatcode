@@ -24,7 +24,7 @@ struct TrialBackgroundView: View {
 //                Color.green
                 .ignoresSafeArea()
                 
-                VStack {
+                ScrollView {
                     Text("Hello, World!")
                         .font(.largeTitle)
                 }
