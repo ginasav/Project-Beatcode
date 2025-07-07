@@ -107,9 +107,28 @@ struct BookCardView: View {
                 
                 Spacer()
                 
-            
+                //Favorite Button
+                Button(action: onFavoriteToggle) {
+                    ZStack {
+                        Circle()
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 44, height: 44)
+                        
+                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                            .font(.title)
+                            .foregroundStyle(book.isFavorite ? .red : .gray)
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            .padding(20)
+            .background {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+                    .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
             }
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
