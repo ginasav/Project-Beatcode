@@ -19,38 +19,69 @@ struct BookDetailView: View {
     }
     
     var body: some View {
-        VStack(spacing: 10) {
-            if let book = book {
-                //Book Icon
-                Image(systemName: "book.fill")
-                    .font(.system(size: 60))
-                    .foregroundStyle(.cyan)
-                
-                //Book Details
-                VStack {
-                    Text(book.title)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                    
-                    Text("by \(book.author)")
-                        .font(.title2)
-                        .foregroundStyle(.secondary)
-                }
-                
-                // Favorite Status
-                VStack(spacing: 10) {
-                    HStack {
-                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
-                            .foregroundStyle(book.isFavorite ? .red : .gray)
-                            .font(.title2)
+        ZStack{
+            //Background gradient
+            LinearGradient(
+                colors: [
+                    Color(.black).opacity(0.4),
+                    Color(.systemGray6).opacity(0.6)
+                ],
+                startPoint: .bottomTrailing,
+                endPoint: .topLeading
+            )
+            .ignoresSafeArea()
+            
+            //Blur
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .opacity(0.7)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 10) {
+                if let book = book {
+                    //Book Icon
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(
+                                LinearGradient(
+                                    colors: [.blue.opacity(0.8),
+                                             .purple.opacity(0.6)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                        
+                        Image(systemName: "book.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(.cyan)
                     }
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+                    //Book Details
+                    VStack {
+                        Text(book.title)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                        
+                        Text("by \(book.author)")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    // Favorite Status
+                    VStack(spacing: 10) {
+                        HStack {
+                            Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                                .foregroundStyle(book.isFavorite ? .red : .gray)
+                                .font(.title2)
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
+                } else {
+                    ProgressView("Loading...")
                 }
-            } else {
-                ProgressView("Loading...")
             }
         }
             .navigationTitle("Book Details")

@@ -36,6 +36,12 @@ struct ContentView: View {
                     endPoint: .topLeading
                 )
                 .ignoresSafeArea()
+                
+                //Little bit of blur
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.7)
+                    .ignoresSafeArea()
                     
                     ScrollView {
                         LazyVStack(spacing: 16) {
