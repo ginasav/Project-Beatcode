@@ -112,15 +112,14 @@ struct BookDetailView: View {
                         }
                     }
                     .accessibilityElement(children: .combine)
-                    .accessibilityLabel("Favorite status: \(book.isFavorite ? "This book is favorite" : "This book is not favorite")")
+                    .accessibilityLabel("Favorite status: \(book.isFavorite ? "This book is in your favorites" : "This book is not in your favorites")")
                     .accessibilityAddTraits(.isStaticText)
                 } else {
-                        ProgressView("Loading...")
+                    ProgressView("Loading...")
                         .accessibilityLabel("Loading book details")
                         .accessibilityAddTraits(.updatesFrequently)
                 }
             }
-            .accessibilityLabel("Book details view")
         }
             .navigationTitle("Book Details")
             .navigationBarTitleDisplayMode(.inline)

@@ -171,7 +171,7 @@ struct ContentView: View {
             }
             .buttonStyle(PlainButtonStyle())
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("Book: \(book.title) by \(book.author). \(book.isFavorite ? "Currenlty favorited" : "Not favorited")")
+            .accessibilityLabel("Book: \(book.title) by \(book.author). \(book.isFavorite ? "Currently favorited" : "Not favorited")")
             .accessibilityHint("Double tap to view book details. Use the rotor to access favorite actions")
             .accessibilityAddTraits(.isButton)
             //Custom VoiceOver Action to toggle favorites
