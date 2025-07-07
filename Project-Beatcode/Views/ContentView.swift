@@ -26,35 +26,34 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                // Background gradient
-                LinearGradient(
-                    colors: [
-                        Color(.systemBackground),
-                        Color(.systemGray6).opacity(0.3)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
-                
-                ScrollView {
-                    LazyVStack(spacing: 16) {
-                        ForEach (viewModel.books) { book in
-                            BookCardView(
-                                book: book,
-                                onTap: { selectedBook = book },
-                                onFavoriteToggle: { viewModel.toggleFavorite(for: book) }
-                            )
-                        }
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach (viewModel.books) { book in
+                        BookCardView(
+                            book: book,
+                            onTap: { selectedBook = book },
+                            onFavoriteToggle: { viewModel.toggleFavorite(for: book) }
+                        )
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
+                .navigationTitle("Books of the month")
             }
-            .navigationTitle("Books of the month")
+            .scrollDisabled(true)
         }
-        //adding onAppear to load the modelContext
+        .background {
+            //Background gradient
+            LinearGradient(
+                colors: [
+                    Color(.systemBackground),
+                    Color(.systemGray6).opacity(0.3)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        }
         .onAppear{
             viewModel.setModelContext(modelContext)
         }
