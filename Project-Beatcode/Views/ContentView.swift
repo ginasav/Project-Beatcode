@@ -75,6 +75,7 @@ struct ContentView: View {
         let book: BookModel
         let onTap: () -> Void
         let onFavoriteToggle: () -> Void
+        @State private var isHeartPressed: Bool = false
         
         var body: some View {
             Button(action: onTap) {
@@ -117,7 +118,22 @@ struct ContentView: View {
                     Spacer()
                     
                     //Favorite Button
-                    Button(action: onFavoriteToggle) {
+                    Button(action: {
+                        //Little animation when I tap on the heart
+                        withAnimation(.easeInOut(duration: 0.1)) {
+                            isHeartPressed = true
+                        }
+                        
+                        //Call the function to toggle the status
+                        onFavoriteToggle()
+                        
+                        //Reset animation
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation(.easeInOut(duration: 0.1)) {
+                                isHeartPressed = false
+                            }
+                        }
+                    }) {
                         ZStack {
                             Circle()
                                 .fill(.ultraThinMaterial)
@@ -130,6 +146,8 @@ struct ContentView: View {
                             Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                                 .font(.title)
                                 .foregroundStyle(book.isFavorite ? .red : .gray)
+                                .scaleEffect(isHeartPressed ? 1.3 : 1.0)
+                                .animation(.easeInOut(duration: 0.1), value: isHeartPressed)
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
