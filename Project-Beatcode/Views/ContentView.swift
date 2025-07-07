@@ -156,9 +156,7 @@ struct ContentView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .accessibilityLabel(book.isFavorite ? "Remove from favorites" : "Add to favorites")
-                    .accessibilityHint("Double tap to \(book.isFavorite ? "remove this book from" : "add this book to") your favorites")
-                    .accessibilityAddTraits(.isButton)
+                    .accessibilityHidden(true)
                 }
                 .padding(20)
                 .background {
@@ -173,9 +171,16 @@ struct ContentView: View {
             }
             .buttonStyle(PlainButtonStyle())
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("Book: \(book.title) by \(book.author)")
-            .accessibilityHint("Double tap to view book details")
+            .accessibilityLabel("Book: \(book.title) by \(book.author). \(book.isFavorite ? "Currenlty favorited" : "Not favorited")")
+            .accessibilityHint("Double tap to view book details. Use the rotor to access favorite actions")
             .accessibilityAddTraits(.isButton)
+            //Custom VoiceOver Action to toggle favorites
+            .accessibilityAction(named: book.isFavorite ? "Remove from Favorites" : "Add to Favorites") {
+                onFavoriteToggle()
+            }
+            .accessibilityAction(named: "Toggle Favorite Status") {
+                onFavoriteToggle()
+            }
         }
     }
     
