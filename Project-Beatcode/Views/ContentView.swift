@@ -36,12 +36,14 @@ struct ContentView: View {
                     endPoint: .topLeading
                 )
                 .ignoresSafeArea()
+                .accessibilityHidden(true) //Hide the background for the VoiceOver
                 
                 //Little bit of blur
                 Rectangle()
                     .fill(.ultraThinMaterial)
                     .opacity(0.7)
                     .ignoresSafeArea()
+                    .accessibilityHidden(true)
                     
                     ScrollView {
                         LazyVStack(spacing: 16) {
@@ -101,6 +103,7 @@ struct ContentView: View {
                             .font(.title2)
                             .foregroundStyle(.white)
                     }
+                    .accessibilityHidden(true)
                     
                     //Book info
                     VStack(alignment: .leading, spacing: 8) {
@@ -114,6 +117,8 @@ struct ContentView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("\(book.title) by \(book.author)")
                     
                     Spacer()
                     
@@ -151,6 +156,9 @@ struct ContentView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .accessibilityLabel(book.isFavorite ? "Remove from favorites" : "Add to favorites")
+                    .accessibilityHint("Double tap to \(book.isFavorite ? "remove this book from" : "add this book to") your favorites")
+                    .accessibilityAddTraits(.isButton)
                 }
                 .padding(20)
                 .background {
@@ -164,6 +172,10 @@ struct ContentView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Book: \(book.title) by \(book.author)")
+            .accessibilityHint("Double tap to view book details")
+            .accessibilityAddTraits(.isButton)
         }
     }
     
